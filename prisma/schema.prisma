@@ -13,3 +13,11 @@ datasource db {
   url       = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
+
+model Budget {
+  id              String   @id @default(uuid())
+  name            String
+  maximumSpending Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
