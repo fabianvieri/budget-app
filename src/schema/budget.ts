@@ -1,10 +1,14 @@
 import { z } from 'zod';
 
-const requiredString = z.string().min(1, 'Required');
-
 export const createBudgetSchema = z.object({
-	name: requiredString.max(100),
-	maximumSpending: z.number(),
+	name: z.string().min(1, 'Name is required'),
+	maximumSpending: z
+		.string()
+		.min(1, 'Maximum spending is required')
+		.regex(/^\d+$/, 'Must be a number')
+		.refine((value) => parseInt(value) > 0, {
+			message: 'Must be greater than 0',
+		}),
 });
 
 export type createBudgetValues = z.infer<typeof createBudgetSchema>;

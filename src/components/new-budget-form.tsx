@@ -1,7 +1,7 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
 import {
 	Form,
@@ -12,23 +12,46 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 import { createBudgetSchema, createBudgetValues } from '@/schema/budget';
-import { Button } from '@/components/ui/button';
+
+import { addNewBudget } from '../actions/budget.action';
+import SubmitButton from './submit-button';
 
 export default function NewBudgetForm() {
 	const form = useForm<createBudgetValues>({
 		resolver: zodResolver(createBudgetSchema),
 		defaultValues: {
 			name: '',
-			maximumSpending: 100,
+			maximumSpending: '',
 		},
 	});
 
-	const { handleSubmit, control } = form;
+	const {
+		handleSubmit,
+		control,
+		formState: { isSubmitting },
+	} = form;
+
+	const { toast } = useToast();
 
 	async function onSubmit(values: createBudgetValues) {
-		console.log(values);
+		try {
+			await addNewBudget(values);
+			toast({
+				title: 'New budget created',
+				description: `Budget ${values.name} created`,
+			});
+		} catch (error) {
+			console.error(error);
+			toast({
+				title: 'Failed to create budget',
+				description: 'Please try again',
+				variant: 'destructive',
+			});
+		}
 	}
+
 	return (
 		<Form {...form}>
 			<form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -58,7 +81,7 @@ export default function NewBudgetForm() {
 						</FormItem>
 					)}
 				/>
-				<Button type="submit">Submit</Button>
+				<SubmitButton loading={isSubmitting}>Submit</SubmitButton>
 			</form>
 		</Form>
 	);

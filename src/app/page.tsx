@@ -1,11 +1,16 @@
-import BudgetList from '@/components/budget-list';
+import prisma from '@/lib/db';
+import BudgetItem from '@/components/budget-item';
 
-export default function Home() {
+export default async function Home() {
+	const budgets = await prisma.budget.findMany({});
+
 	return (
-		<main className="p-3 my-5">
-			<div className="container mx-auto">
-				<BudgetList />
+		<div className="container mx-auto">
+			<div className="flex flex-col gap-4">
+				{budgets.map((budget) => (
+					<BudgetItem key={budget.id} {...budget} />
+				))}
 			</div>
-		</main>
+		</div>
 	);
 }

@@ -1,5 +1,16 @@
 import Link from 'next/link';
+
 import { Button } from './ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from './ui/dialog';
+
+import NewBudgetForm from './new-budget-form';
 
 export default function Header() {
 	return (
@@ -9,9 +20,20 @@ export default function Header() {
 					<Link href="/">Budgets</Link>
 				</h1>
 				<div className="space-x-2">
-					<Button asChild>
-						<Link href="/budgets/add">Add Budget</Link>
-					</Button>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button>Add Budget</Button>
+						</DialogTrigger>
+						<DialogContent className="sm:max-w-[500px]">
+							<DialogHeader>
+								<DialogTitle>Add New Budget</DialogTitle>
+								<DialogDescription>
+									Create your own custom budget
+								</DialogDescription>
+							</DialogHeader>
+							<NewBudgetForm />
+						</DialogContent>
+					</Dialog>
 					<Button variant="outline">Add Expense</Button>
 				</div>
 			</div>
