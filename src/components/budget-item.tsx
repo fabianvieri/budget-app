@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	Card,
 	CardContent,
@@ -6,9 +5,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from './ui/card';
+import { Budget } from '@/db/schema';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
-import type { Budget } from '@prisma/client';
 import { currencyFormatter } from '@/lib/utils';
 
 export default function BudgeItem({ name, maximumSpending }: Budget) {
@@ -19,11 +18,11 @@ export default function BudgeItem({ name, maximumSpending }: Budget) {
 					<CardTitle className="text-xl">{name}</CardTitle>
 					<div className="flex items-center gap-1">
 						<span className="font-bold text-xl">
-							{currencyFormatter(maximumSpending)}
+							{currencyFormatter(parseInt(maximumSpending))}
 						</span>
 						<span className="text-muted-foreground">/</span>
 						<span className="text-muted-foreground text-sm">
-							{currencyFormatter(maximumSpending)}
+							{currencyFormatter(parseInt(maximumSpending))}
 						</span>
 					</div>
 				</div>

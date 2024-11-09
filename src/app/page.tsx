@@ -1,8 +1,8 @@
-import prisma from '@/lib/db';
 import BudgetItem from '@/components/budget-item';
+import { getBudgetList } from '@/lib/queries';
 
 export default async function Home() {
-	const budgets = await prisma.budget.findMany({});
+	const budgets = await getBudgetList();
 
 	return (
 		<div className="container mx-auto">

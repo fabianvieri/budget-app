@@ -1,7 +1,7 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
 	Form,
@@ -11,12 +11,12 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
-import { createBudgetSchema, createBudgetValues } from '@/schema/budget';
-
-import { addNewBudget } from '../actions/budget.action';
 import SubmitButton from './submit-button';
+import { Input } from '@/components/ui/input';
+
+import { useToast } from '@/hooks/use-toast';
+import { addNewBudget } from '../lib/actions';
+import { createBudgetSchema, createBudgetValues } from '@/lib/validations';
 
 export default function NewBudgetForm() {
 	const form = useForm<createBudgetValues>({
@@ -62,7 +62,11 @@ export default function NewBudgetForm() {
 						<FormItem>
 							<FormLabel>Budget Name</FormLabel>
 							<FormControl>
-								<Input placeholder="e.g. Entertainment" {...field} />
+								<Input
+									placeholder="e.g. Entertainment"
+									disabled={isSubmitting}
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -75,7 +79,12 @@ export default function NewBudgetForm() {
 						<FormItem>
 							<FormLabel>Budget Maximum Spending</FormLabel>
 							<FormControl>
-								<Input className="appearance-none" type="number" {...field} />
+								<Input
+									className="appearance-none"
+									type="number"
+									disabled={isSubmitting}
+									{...field}
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
